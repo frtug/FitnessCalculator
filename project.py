@@ -1,4 +1,66 @@
 from tkinter import *
+import os
+
+cred = 'tempfile.txt'
+
+def signUp():
+    global p2
+    global n2
+    global roots
+    roots = Tk()
+    roots.title('signUp')
+    intro = Label(roots,text='Please Enter new Credidentials\n')
+    intro.grid(row=0,column=0,sticky=E)
+
+    n1 = Label(roots,text='New Username: ')
+    p1 = Label(roots,text="New Password: ")
+    n1.grid(row=1,column=0,sticky=W)
+    p1.grid(row=2,column=0,sticky=W)
+
+    n2 = Entry(roots)
+    p2 = Entry(roots,show='*')
+    n2.grid(row=1,column=1)
+    p2.grid(row=2,column=1)
+
+    signButton = Button(roots,text='SignUp',command=FsignUp)
+    signButton.grid(columnspan=2,sticky=W)
+    roots.mainloop()
+
+def FsignUp():
+    with open(cred, 'w') as f:
+        f.write(n2.get())
+        f.write('\n')
+        f.write(p2.get())
+        f.close
+    roots.destroy()
+    login()
+def login():
+    global n12
+    global p12
+    global rootA
+    rootA = Tk()
+    rootA.title('login')
+
+    instruction = Label(rootA,text="Please login\n")
+    instruction.grid(sticky=E)
+
+    namel = Label(rootA,text="UserName: ")
+    namep = Label(rootA,text="password: ")
+    namel.grid(row =1,sticky=W)
+    namep.grid(row = 2,sticky=W)
+
+    n12 = Entry(rootA)
+    p12 = Entry(rootA, show='*')
+    n12.grid(row=1, column=1)
+    p12.grid(row=2, column=1)
+
+    loginB = Button(rootA,text='Login',command=checklogin)
+    loginB.grid(columnspan=2, sticky=W)
+
+    rmuser= Button(rootA,text="Delete User",fg='red',command=DelUser)
+    rmuser.grid(columnspan=2,sticky=W)
+    rootA.mainloop()
+
 
 def generate_command():
     win = Tk()
@@ -7,7 +69,7 @@ def generate_command():
     l = Label(win, text="Report", bg='black', fg='red', width=20)
     l.grid(row=0)
 
-    l1 = Label(win, text="BMI(Body Mass Index): ", background='black', fg='white', width=20, font='20px')
+    l1 = Label(win, text="BMI(Body Mass Index): ", background='black', fg='white', width=20)
     l1.grid(row=4, column=2, pady=20)
     e1 = Entry(win, width=20,bd=5)
     e1.grid(row=4, column=3, padx=10)
@@ -57,7 +119,7 @@ def generate_command():
     e3 = Entry(win, width=15,bd=5)
     e3.grid(row=15, column=3)
 
-    Button(win, text='Quit',bg='red',fg="white",command=win.quit).grid(row=1,column=5)
+    Button(win, text='Exit',bg='red',fg="white",command=win.quit).place(x=795,y=30)
 
 
     win.mainloop()
@@ -69,13 +131,14 @@ def call_Info():
     print('33')
 
 def proj():
-
+    r.destroy()
+    rootA.destroy()
     print("GUI starts fitness calculator")
     top = Tk()
     top.geometry("850x700")
     l = Label(top, text="Fitness Calculator", bg='black', fg='red', width=20)
     l.grid(row=0)
-
+    top['bg'] = 'grey'
     l1 = Label(top, text="Name: ", background='black', fg='white', width=7, font='20px')
     l1.grid(row=4, column=0, pady=20)
     e1 = Entry(top, width=20)
@@ -155,7 +218,38 @@ def proj():
     b1 = Button(top, text="Save Info", bg="black",fg='white', bd=2, width=20, command=save_call)
     b1.grid(row=19,  column=4, pady=40)
 
-    Button(top, text='Quit',bg='red',fg="white",command=top.quit).grid(row=1,column=5)
+    Button(top, text='Exit',bg='red',fg="white",command=top.quit).grid(row=1,column=5)
     top.mainloop()
 
-proj()
+def checklogin():
+    global r
+    with open(cred) as f:
+        data = f.readlines()
+        uname = data[0].rstrip()
+        pword = data[1].rstrip()
+    if n12.get() == uname and p12.get() == pword:
+        r = Tk()
+        r.title(':D')
+        r.geometry('150x150')
+        rl = Label(r,text='\n[!] Logged In')
+        rl.pack()
+        proj()
+        r.mainloop()
+        
+    else:
+        r = Tk()
+        r.title(':D')
+        r.geometry('150x150')
+        rl = Label(r, text='\n[!] Invalid Login')
+        rl.pack()
+        r.mainloop()
+
+def DelUser():
+    os.remove(cred)
+    rootA.destroy()
+    signUp()
+if os.path.isfile(cred):
+    login()
+else:
+    signUp()
+
