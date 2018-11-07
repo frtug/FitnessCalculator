@@ -21,7 +21,7 @@ def signUp():
     roots.geometry('500x300')
     roots['bg'] = 'grey'
     roots.title('signUp')
-    intro = Label(roots, text='Please Enter new Credidentials\n',background='black',fg='white',heigth=20,)
+    intro = Label(roots, text='Please Enter new Credidentials\n',background='black',fg='white')
     intro.grid(row=0, column=0, sticky=N,pady=20,padx=20)
 
     n1 = Label(roots, text='New Username: ',background='black',fg='white')
@@ -382,7 +382,6 @@ def DelUser():
     os.remove(cred)
     rootA.destroy()
     signUp()
-
 
 if os.path.isfile(cred):
     login()
