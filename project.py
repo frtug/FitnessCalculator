@@ -2,6 +2,7 @@ from tkinter import *
 import os
 import sqlite3
 from tkinter import messagebox
+import time
 cred = 'tempfile.txt'
 
 db = sqlite3.connect("data1.db")
@@ -20,22 +21,22 @@ def signUp():
     roots = Tk()
     roots.geometry('500x300')
     roots['bg'] = 'grey'
-    roots.title('signUp')
-    intro = Label(roots, text='Please Enter new Credidentials\n',background='black',fg='white')
-    intro.grid(row=0, column=0, sticky=N,pady=20,padx=20)
+    roots.title('SignUp')
+    intro = Label(roots, text='Please Register', background='black', fg='white', font=("Bold", 40))
+    intro.grid(row=0, sticky=N, padx=50, pady=10)
 
-    n1 = Label(roots, text='New Username: ',background='black',fg='white')
-    p1 = Label(roots, text="New Password: ",background='black',fg='white')
-    n1.grid(row=1, column=0, sticky=W,pady=20,padx=20)
-    p1.grid(row=2, column=0, sticky=W,pady=20,padx=20)
+    n1 = Label(roots, text=' Username: ', background='black', fg='white', font=("Cursive", 20))
+    p1 = Label(roots, text=" Password: ", background='black', fg='white', font=("Cursive", 20))
+    n1.grid(row=1, sticky=W, column=0, padx=20, pady=20)
+    p1.grid(row=2, sticky=W, column=0, padx=20, pady=20)
 
     n2 = Entry(roots)
     p2 = Entry(roots, show='*')
-    n2.grid(row=1, column=2)
-    p2.grid(row=2, column=2)
+    n2.grid(row=1, column=0, sticky=E, padx=20)
+    p2.grid(row=2, column=0, sticky=E, padx=20)
 
-    signButton = Button(roots, text='SignUp',background='black',fg='white' ,command=FsignUp)
-    signButton.grid(columnspan=2, sticky=E)
+    signButton = Button(roots, text='SignUp', command=FsignUp, background='black', fg='red')
+    signButton.grid(column=0, row=3, padx=50, columnspan=1)
     roots.mainloop()
 
 def FsignUp():
@@ -47,34 +48,7 @@ def FsignUp():
     roots.destroy()
     login()
 
-def login():
-    global n12
-    global p12
-    global rootA
-    rootA = Tk()
 
-    rootA['bg'] = 'grey'
-    rootA.title('login')
-
-    instruction = Label(rootA, text="Please login\n",background='black',fg='white',height=3)
-    instruction.grid(sticky=E,pady=20,padx=20)
-
-    namel = Label(rootA, text="UserName: ",background='black',fg='white')
-    namep = Label(rootA, text="password: ",background='black',fg='white')
-    namel.grid(row=1, sticky=W,pady=10)
-    namep.grid(row=2, sticky=W,pady=10)
-
-    n12 = Entry(rootA)
-    p12 = Entry(rootA, show='*')
-    n12.grid(row=1, column=1)
-    p12.grid(row=2, column=1)
-
-    loginB = Button(rootA, text='Login',background='black',fg='white', command=checklogin)
-    loginB.grid(columnspan=2, sticky=W)
-
-    rmuser = Button(rootA, text="Delete User", fg='red', command=DelUser)
-    rmuser.grid(columnspan=2, sticky=W)
-    rootA.mainloop()
 
 def generate_command():
 
@@ -353,7 +327,6 @@ def proj():
     Button(top, text='Exit', bg='red', fg="white", command=top.destroy).grid(row=1, column=5)
     top.mainloop()
 
-
 def checklogin():
     global r
     with open(cred) as f:
@@ -364,8 +337,6 @@ def checklogin():
         r = Tk()
         r.title(':D')
         r.geometry('300x300')
-        rl = Label(r, text='\n[!] Logged In')
-        rl.pack()
         proj()
         r.mainloop()
 
@@ -376,6 +347,35 @@ def checklogin():
         rl = Label(r, text='\n[!] Invalid Login')
         rl.pack()
         r.mainloop()
+
+def login():
+    global n12
+    global p12
+    global rootA
+    rootA = Tk()
+
+    rootA['bg'] = 'grey'
+    rootA.title('Login')
+
+    instruction = Label(rootA, text="Please Login",background='black',fg='white',font=("",30))
+    instruction.grid(sticky=N,padx=20,pady=20,columnspan=2)
+
+    namel = Label(rootA, text="UserName: ",background='black',fg='white',font=('',20))
+    namep = Label(rootA, text="PassWord: ",background='black',fg='white',font=('',20))
+    namel.grid(row=1, sticky=W,pady=10,padx=20)
+    namep.grid(row=2, sticky=W,pady=10,padx=20)
+
+    n12 = Entry(rootA)
+    p12 = Entry(rootA, show='*')
+    n12.grid(row=1, column=1,pady=10,sticky=E)
+    p12.grid(row=2, column=1,pady=10,sticky=E)
+
+    loginB = Button(rootA, text='Login',background='black',fg='white', command=checklogin)
+    loginB.grid(row=3,columnspan=2, sticky=W,pady=10)
+
+    rmuser = Button(rootA, text="Delete User", fg='red', command=DelUser)
+    rmuser.grid(row=3,columnspan=2, sticky=E,pady=10)
+    rootA.mainloop()
 
 
 def DelUser():
