@@ -3,8 +3,14 @@ import os
 import sqlite3
 from tkinter import messagebox
 import time
-cred = 'tempfile.txt'
+#......
+cred ='passdata.db'
+db1  =sqlite3.connect(cred)
+c1 = db1.cursor()
+c1.execute("""CREATE TABLE IF NOT EXISTS keys(User_name TEXT,Password TEXT)""")
+db1.commit()
 
+#..................... for the login and signUP .......................................
 db = sqlite3.connect("data1.db")
 c = db.cursor()
 c.execute("""CREATE TABLE IF NOT EXISTS User(ID INTEGER PRIMARY KEY,Name TEXT,Age INTEGER,
@@ -40,14 +46,14 @@ def signUp():
     roots.mainloop()
 
 def FsignUp():
-    with open(cred, 'w') as f:
-        f.write(n2.get())
-        f.write('\n')
-        f.write(p2.get())
-        f.close
-    roots.destroy()
-    login()
-
+    
+     username = n2.get()
+     password = p2.get()
+     if len(username)!=0 and len(password)!=0 :
+      c1.execute("INSERT INTO keys VALUES(?,?)",(username,password))
+      db1.commit()
+      roots.destroy()
+      login()
 
 
 def generate_command():
@@ -218,7 +224,7 @@ def save_Info():
   c.close()
 
 def proj():
-    r.destroy()
+    
     rootA.destroy()
     print("GUI starts fitness calculator")
     top = Tk()
@@ -326,27 +332,46 @@ def proj():
 
     Button(top, text='Exit', bg='red', fg="white", command=top.destroy).grid(row=1, column=5)
     top.mainloop()
+    
+
 
 def checklogin():
+    
     global r
-    with open(cred) as f:
-        data = f.readlines()
-        uname = data[0].rstrip()
-        pword = data[1].rstrip()
-    if n12.get() == uname and p12.get() == pword:
-        r = Tk()
-        r.title(':D')
-        r.geometry('300x300')
-        proj()
-        r.mainloop()
-
+    if n12.get() != 0 and p12.get() != 0:
+        d1 = c1.execute("SELECT User_name FROM keys")
+        d2 = d1.fetchall()
+        d1 = c1.execute("SELECT Password FROM keys")
+       
+        d3 = d1.fetchall()
+        db1.commit()
+        p2 = False
+        p3 = False
+        for i in d2:
+            if i == n12.get():
+             p2 = True
+        for i in d3:
+            if i == p12.get():
+                p2 = True
+            
+            
+        print("p2=",p2,"p3=",p3)                       
+        if d2 and d3:
+            print("Hello Jammmu Its working")
+            proj()
+            
+        else:
+            print("Password didn't match")
+            print(d1)
+      
     else:
         r = Tk()
         r.title(':D')
         r.geometry('300x300')
-        rl = Label(r, text='\n[!] Invalid Login')
+        rl = Label(r, text='\n[!] Fill the Login Credentionals')
         rl.pack()
         r.mainloop()
+    
 
 def login():
     global n12
@@ -373,13 +398,15 @@ def login():
     loginB = Button(rootA, text='Login',background='black',fg='white', command=checklogin)
     loginB.grid(row=3,columnspan=2, sticky=W,pady=10)
 
-    rmuser = Button(rootA, text="Delete User", fg='red', command=DelUser)
+    rmuser = Button(rootA, text="SignUp ", fg='red', command=DelUser)
     rmuser.grid(row=3,columnspan=2, sticky=E,pady=10)
     rootA.mainloop()
+    c1.close()
+#needs to be changed
 
 
 def DelUser():
-    os.remove(cred)
+ #   os.remove(cred)
     rootA.destroy()
     signUp()
 
