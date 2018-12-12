@@ -7,7 +7,7 @@ import time
 cred ='passdata.db'
 db1  =sqlite3.connect(cred)
 c1 = db1.cursor()
-c1.execute("""CREATE TABLE IF NOT EXISTS keys(User_name TEXT,Password TEXT)""")
+c1.execute("""CREATE TABLE IF NOT EXISTS keys(User_name TEXT NOT NULL,Password TEXT NOT NULL)""")
 db1.commit()
 
 #..................... for the login and signUP .......................................
@@ -42,7 +42,7 @@ def signUp():
     p2.grid(row=2, column=0, sticky=E, padx=20)
 
     signButton = Button(roots, text='SignUp', command=FsignUp, background='black', fg='red')
-    signButton.grid(column=0, row=3, padx=50, columnspan=1)
+    signButton.grid(column=0, row=3, padx=40, columnspan=1)
     roots.mainloop()
 
 def FsignUp():
@@ -52,8 +52,13 @@ def FsignUp():
      if len(username)!=0 and len(password)!=0 :
       c1.execute("INSERT INTO keys VALUES(?,?)",(username,password))
       db1.commit()
+      msg = messagebox.showinfo('SignUp','Successfully')
+
       roots.destroy()
+      #msg = messagebox.showinfo('Error','Enter the Values')
       login()
+     else:
+        msg = messagebox.showinfo('Error','Enter the Credentials')
 
 
 def generate_command():
@@ -222,15 +227,20 @@ def save_Info():
   print(d.fetchall())
   db.commit()
   c.close()
-
-def proj():
+  
+def quitr():
+    root.destroy()
+    quit()
     
+    
+def proj():
+    global top
     rootA.destroy()
     print("GUI starts fitness calculator")
     top = Tk()
-    top.geometry("850x700")
-    l = Label(top, text="Fitness Calculator", bg='black', fg='red', width=20)
-    l.grid(row=0)
+    top.geometry("1200x900")
+    l = Label(top, text="Fitness Calculator", bg='black', fg='red', width=20,font=("",40))
+    l.grid(row=0,column=1,columnspan=1)
     top['bg'] = 'grey'
     l11 = Label(top, text="Name: ", background='black', fg='white', width=7)
     l11.grid(row=4, column=0, pady=20)
@@ -251,7 +261,7 @@ def proj():
     e12.grid(row=4, column=3)
 
     l21 = Label(top, text="Gender: ", background='black', fg='white', width=7)
-    l21.grid(row=6, column=0, pady=20)
+    l21.grid(row=6, column=0, pady=20,padx=10)
     var = IntVar()
     r1 = Radiobutton(top, text="Female", value=1, variable=var, width=10)
     r2 = Radiobutton(top, text="Male", value=2, variable=var, width=10)
@@ -260,67 +270,67 @@ def proj():
 
     global e31
     l31 = Label(top, text="Weight: ", background='black', fg='white', width=10)
-    l31.grid(row=7, column=0, pady=2)
+    l31.grid(row=7, column=0, pady=2,padx=10)
     e31 = Entry(top, width=15)
     e31.grid(row=7, column=1)
 
     global e41
     l41 = Label(top, text="Height: ", background='black', fg='white', width=10)
-    l41.grid(row=8, column=0, pady=2)
+    l41.grid(row=8, column=0, pady=2,padx=10)
     e41 = Entry(top, width=15)
     e41.grid(row=8, column=1)
 
     global e51
     l51 = Label(top, text="BP Low: ", background='black', fg='white', width=10)
-    l51.grid(row=9, column=0, pady=2)
+    l51.grid(row=9, column=0, pady=2,padx=10)
     e51 = Entry(top, width=15)
     e51.grid(row=9, column=1)
 
     global e61
     l61 = Label(top, text="BP High: ", background='black', fg='white', width=10)
-    l61.grid(row=10, column=0, pady=2)
+    l61.grid(row=10, column=0, pady=2,padx=10)
     e61 = Entry(top, width=15)
     e61.grid(row=10, column=1)
 
     global e71
     l71 = Label(top, text="Pulse Rate: ", background='black', fg='white', width=10)
-    l71.grid(row=11, column=0, pady=2)
+    l71.grid(row=11, column=0, pady=2,padx=10)
     e71 = Entry(top, width=15)
     e71.grid(row=11, column=1)
 
     global e81
     l81 = Label(top, text="RBC Count: ", background='black', fg='white', width=10)
-    l81.grid(row=12, column=0, pady=2)
+    l81.grid(row=12, column=0, pady=2,padx=10)
     e81 = Entry(top, width=15)
     e81.grid(row=12, column=1)
 
     global e91
     l91 = Label(top, text="WBC Count: ", background='black', fg='white', width=10)
-    l91.grid(row=13, column=0, pady=2)
+    l91.grid(row=13, column=0, pady=2,padx=10)
     e91 = Entry(top, width=15)
     e91.grid(row=13, column=1)
 
     global e101
     l101= Label(top, text="Platelets: ", background='black', fg='white', width=10)
-    l101.grid(row=14, column=0, pady=2)
+    l101.grid(row=14, column=0, pady=2,padx=10)
     e101 = Entry(top, width=15)
     e101.grid(row=14, column=1)
 
     global e201
     l201 = Label(top, text="HB: ", background='black', fg='white', width=10)
-    l201.grid(row=15, column=0, pady=2)
+    l201.grid(row=15, column=0, pady=2,padx=10)
     e201 = Entry(top, width=15)
     e201.grid(row=15, column=1)
 
     global e301
     l301 = Label(top, text="Uric Acid: ", background='black', fg='white', width=10)
-    l301.grid(row=16, column=0, pady=2)
+    l301.grid(row=16, column=0, pady=2,padx=10)
     e301 = Entry(top, width=15)
     e301.grid(row=16, column=1)
 
     global e401
     l401 = Label(top, text="Cholesterol: ", background='black', fg='white', width=10)
-    l401.grid(row=17, column=0, pady=2)
+    l401.grid(row=17, column=0, pady=2,padx=10)
     e401 = Entry(top, width=15)
     e401.grid(row=17, column=1)
 
@@ -330,44 +340,34 @@ def proj():
     b1 = Button(top, text="Save Info", bg="black", fg='white', bd=2, width=20, command=save_Info)
     b1.grid(row=19, column=4, pady=40)
 
-    Button(top, text='Exit', bg='red', fg="white", command=top.destroy).grid(row=1, column=5)
+    Button(top, text='Exit', bg='red', fg="white", command=quitr).grid(row=1, column=5)
     top.mainloop()
     
-
-
 def checklogin():
     
     global r
-    if n12.get() != 0 and p12.get() != 0:
-        d1 = c1.execute("SELECT User_name FROM keys")
-        d2 = d1.fetchall()
-        d1 = c1.execute("SELECT Password FROM keys")
-       
-        d3 = d1.fetchall()
+    if n12.get() != "" and p12.get() != "":
+        print(n12.get(),p12.get())
+      #  f = c1.execute("SELECT  User_name FROM keys")
+       # print(f.fetchall())
+        d1 = c1.execute("SELECT User_name FROM keys WHERE User_name ='{}'".format(n12.get()))
+        d2 = d1.fetchone()
+        d1 = c1.execute("SELECT Password FROM keys WHERE Password ='{}'".format(p12.get()))
+        d3 = d1.fetchone()
         db1.commit()
-        p2 = False
-        p3 = False
-        for i in d2:
-            if i == n12.get():
-             p2 = True
-        for i in d3:
-            if i == p12.get():
-                p2 = True
-            
-            
-        print("p2=",p2,"p3=",p3)                       
-        if d2 and d3:
-            print("Hello Jammmu Its working")
+        print("d2=",d2[0],"d3=",d3[0])
+        if n12.get() == d2[0] and p12.get() == d3[0]:
+            print("Works in the value")
             proj()
-            
         else:
-            print("Password didn't match")
-            print(d1)
+            print("Error")
+            msg = messagebox.showinfo('Error','Password or UserName')
+
       
     else:
         r = Tk()
-        r.title(':D')
-        r.geometry('300x300')
+        r.title('Unknown')
+        r.geometry('300x150')
         rl = Label(r, text='\n[!] Fill the Login Credentionals')
         rl.pack()
         r.mainloop()
@@ -381,7 +381,7 @@ def login():
 
     rootA['bg'] = 'grey'
     rootA.title('Login')
-
+    rootA.geometry("500x300")
     instruction = Label(rootA, text="Please Login",background='black',fg='white',font=("",30))
     instruction.grid(sticky=N,padx=20,pady=20,columnspan=2)
 
@@ -395,17 +395,18 @@ def login():
     n12.grid(row=1, column=1,pady=10,sticky=E)
     p12.grid(row=2, column=1,pady=10,sticky=E)
 
-    loginB = Button(rootA, text='Login',background='black',fg='white', command=checklogin)
+    loginB = Button(rootA, text='SignUp',background='black',fg='white', command=DeUser)
     loginB.grid(row=3,columnspan=2, sticky=W,pady=10)
 
-    rmuser = Button(rootA, text="SignUp ", fg='red', command=DelUser)
+    rmuser = Button(rootA, text="login ", fg='red', command=checklogin)
     rmuser.grid(row=3,columnspan=2, sticky=E,pady=10)
     rootA.mainloop()
     c1.close()
+    
 #needs to be changed
 
 
-def DelUser():
+def DeUser():
  #   os.remove(cred)
     rootA.destroy()
     signUp()
