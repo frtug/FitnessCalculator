@@ -4,7 +4,7 @@ import sqlite3
 from tkinter import messagebox
 import time
 #......
-cred ='passdata.db'
+cred ='passdataa.db'
 db1  =sqlite3.connect(cred)
 c1 = db1.cursor()
 c1.execute("""CREATE TABLE IF NOT EXISTS keys(User_name TEXT NOT NULL,Password TEXT NOT NULL)""")
